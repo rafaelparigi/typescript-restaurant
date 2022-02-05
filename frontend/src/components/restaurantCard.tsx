@@ -1,20 +1,31 @@
-import React, { useState, FunctionComponent } from "react";
+import axios from "axios";
+import React, { FunctionComponent, useState } from "react";
+import "../App.css";
 
-interface RestaurantDetailsType {
-  menus: string[];
-  // openingTimes: { day: string, time: string }[];
-  // chef: string;
-  // address: string;
+export interface Restaurant {
+  idRestaurants: number;
+  name: string;
+  openingTimes: string;
+  chefName: string;
+  address: string;
 }
 
-const Restaurant: FunctionComponent<RestaurantDetailsType> = ({ menus }) => {
+interface RestaurantCardProps extends Restaurant {
+  deleteRestaurant: (idRestaurantToDelete: number) => void;
+}
+
+export const RestaurantCard: FunctionComponent<RestaurantCardProps> = ({ idRestaurants, name, openingTimes, chefName, address, deleteRestaurant }) => {
+  const handleClick = async () => {
+    await axios.delete(`http://localhost:8000/restaurants/${idRestaurants}`);
+    deleteRestaurant(idRestaurants);
+  }
   return (
-    <div>
-      {menus.map((menu) => (
-        <h1>{menu}</h1>
-      ))}
+    <div className='restaurant-card'>
+      <p>{name}</p>
+      <p>{openingTimes}</p>
+      <p>{chefName}</p>
+      <p>{address}</p>
+      <button onClick={handleClick}>X</button>
     </div>
   );
 };
-
-export default Restaurant;

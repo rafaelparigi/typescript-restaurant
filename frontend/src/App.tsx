@@ -1,19 +1,38 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "./App.css";
-import Restaurant from "./components/restaurantCard";
+import axios from "axios";
+import { RestaurantCard, Restaurant } from './components/restaurantCard';
+import { RestaurantForm } from './components/RestaurantForm';
+
+interface AxiosRequest {
+  data: Restaurant[]
+};
 
 function App() {
-  const restaurantDetails = { menus: ["Angus", "Rafa"] };
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  
+  const getInitialRestaurants = async () => {
+    const { data: response }: AxiosRequest = await axios.get('http://localhost:8000/restaurants');
+    console.log('HELLO', response);
+    setRestaurants(response);
+  };
+
+  const addRestaurant = (newRestaurant: Restaurant) => {
+    setRestaurants([...restaurants, newRestaurant]);
+  }
+
+  const deleteRestaurant = (idRestaurantToDelete: number) => {
+    setRestaurants(restaurants.filter(restaurant => restaurant.idRestaurants !== idRestaurantToDelete));
+  }
+
+  useEffect(() => {
+    getInitialRestaurants();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img
-          src="https://i.guim.co.uk/img/media/11d4c182d094199e26ddb36febe67123a9bbc93a/34_246_2966_4275/master/2966.jpg?width=300&quality=45&auto=format&fit=max&dpr=2&s=7eb0ab5367140724ef58182973ba5633"
-          className="App-logo"
-          alt="logo"
-        />
-      </header>
-      <Restaurant menus={restaurantDetails.menus} />
+    <RestaurantForm addRestaurant={addRestaurant}/>
+    {restaurants.map(restaurant => <RestaurantCard {...restaurant} deleteRestaurant={deleteRestaurant}/>)}
     </div>
   );
 }
