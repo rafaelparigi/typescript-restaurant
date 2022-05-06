@@ -1,49 +1,118 @@
-import React, { useState, useEffect } from "react";
 import "./App.css";
-import axios from "axios";
-import { RestaurantCard, Restaurant } from "./components/restaurantCard";
-import { RestaurantForm } from "./components/RestaurantForm";
+import { useState, useEffect } from "react";
 
-interface AxiosRequest {
+import { NavBar } from "./components/NavBar";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { AddMenu } from "./pages/AddMenu";
+import { Menu } from "./components/MenuCard";
+import axios from "axios";
+
+import { Restaurant } from "./components/restaurantCard";
+import { RestaurantPage } from "./pages/RestaurantPage";
+import { MenuItem } from "./components/MenuItemCard";
+
+interface RestaurantAxiosRequest {
   data: Restaurant[];
 }
 
-function App() {
+interface MenuAxiosRequest {
+  data: Menu[];
+}
+
+interface MenuItemAxiosRequest {
+  data: MenuItem[];
+}
+
+const App = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [restaurantMenus, setRestaurantMenus] = useState<Menu[]>([]);
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+
+  const handleDeleteMenuClick = async (idMenuToDelete: number) => {
+    await axios.delete(`http://localhost:8000/menus/${idMenuToDelete}`);
+    setRestaurantMenus(
+      restaurantMenus.filter((restaurantMenu) => restaurantMenu.idMenu !== idMenuToDelete)
+    );
+  };
 
   const getInitialRestaurants = async () => {
-    const { data: response }: AxiosRequest = await axios.get(
+    const { data: restaurantsResponse }: RestaurantAxiosRequest = await axios.get(
       "http://localhost:8000/restaurants"
     );
-    console.log("HELLO", response);
-    setRestaurants(response);
+    setRestaurants(restaurantsResponse);
   };
 
-  const addRestaurant = (newRestaurant: Restaurant) => {
-    setRestaurants([...restaurants, newRestaurant]);
-  };
-
-  const deleteRestaurant = (idRestaurantToDelete: number) => {
-    setRestaurants(
-      restaurants.filter(
-        (restaurant) => restaurant.idRestaurants !== idRestaurantToDelete
-      )
+  const getMenus = async () => {
+    const { data: menusResponse }: MenuAxiosRequest = await axios.get(
+      `http://localhost:8000/menus`
     );
+    setRestaurantMenus(menusResponse);
+  };
+  const getMenuItems = async () => {
+    const { data: menuItemsResponse }: MenuItemAxiosRequest = await axios.get(
+      `http://localhost:8000/menu-items`
+    );
+    console.log("menuItems", menuItemsResponse);
+    setMenuItems(menuItemsResponse);
   };
 
   useEffect(() => {
     getInitialRestaurants();
+    getMenus();
+    getMenuItems();
   }, []);
-
   return (
-    <div className="App">
-      <h1>Welcome to restaurants</h1>
-      <RestaurantForm addRestaurant={addRestaurant} />
-      {restaurants.map((restaurant) => (
-        <RestaurantCard {...restaurant} deleteRestaurant={deleteRestaurant} />
-      ))}
-    </div>
+    <Router>
+      <NavBar />
+      <div className="App">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                restaurants={restaurants}
+                setRestaurants={setRestaurants}
+                restaurantMenus={restaurantMenus}
+                setRestaurantMenus={setRestaurantMenus}
+                handleDeleteMenuClick={handleDeleteMenuClick}
+              />
+            }
+          />
+          <Route
+            path="/add-form"
+            element={
+              <AddMenu
+                restaurants={restaurants}
+                setRestaurants={setRestaurants}
+                restaurantMenus={restaurantMenus}
+                setRestaurantMenus={setRestaurantMenus}
+                menuItems={menuItems}
+                setMenuItems={setMenuItems}
+              />
+            }
+          />
+          {restaurants.map((restaurant) => (
+            <Route
+              key={restaurant.idRestaurant}
+              path={`/restaurants/${restaurant.idRestaurant}`}
+              element={
+                <RestaurantPage
+                  restaurant={restaurant}
+                  restaurantMenus={restaurantMenus.filter(
+                    (restaurantMenu) => restaurant.idRestaurant === restaurantMenu.idRestaurant
+                  )}
+                  menuItems={menuItems}
+                  setMenuItems={setMenuItems}
+                />
+              }
+            />
+          ))}
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

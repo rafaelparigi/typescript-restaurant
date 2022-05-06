@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "start-dev": "nodemon --config nodemon.json server.ts",
+    "start-b": "nodemon --config nodemon.json server.ts",
     "dev:debug": "nodemon --config nodemon.json --inspect-brk src/index.ts"
   },
   "author": "",

@@ -2,7 +2,12 @@
   text-align: center;
 }
 
-.restaurant-card{
+.restaurant-card {
   background-color: aqua;
+  text-align: center;
+}
+
+.menu-card {
+  background-color: wheat;
   text-align: center;
 }
