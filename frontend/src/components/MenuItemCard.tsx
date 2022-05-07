@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FunctionComponent, useContext } from "react";
+import { FunctionComponent, MouseEvent, useContext } from "react";
 import "../App.css";
 import "../styles/RestaurantPage.css";
 import { AdminContext } from "../contexts/AdminContext";
@@ -25,7 +25,8 @@ export const MenuItemCard: FunctionComponent<MenuItemCardProps> = ({
   setMenuItems,
 }) => {
   const { isAdmin } = useContext(AdminContext);
-  const handleDeleteMenuItemClick = async () => {
+  const handleDeleteMenuItemClick = async (event: MouseEvent) => {
+    event.stopPropagation();
     await axios.delete(`http://localhost:8000/menu-items/${idMenuItem}`);
     deleteMenuItem(idMenuItem);
   };
@@ -38,7 +39,11 @@ export const MenuItemCard: FunctionComponent<MenuItemCardProps> = ({
         {idMenuItem}-{name}
       </p>
       <p>£{price}</p>
-      {isAdmin && <button onClick={handleDeleteMenuItemClick}>X</button>}
+      {isAdmin && (
+        <button className="delete-button" onClick={(event) => handleDeleteMenuItemClick(event)}>
+          X
+        </button>
+      )}
     </div>
   );
 };

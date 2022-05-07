@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FunctionComponent, useContext } from "react";
+import { FunctionComponent, MouseEvent, useContext } from "react";
 import { Menu } from "./MenuCard";
 import "../App.css";
 import "../styles/Home.css";
@@ -19,7 +19,7 @@ interface RestaurantCardProps extends Restaurant {
   deleteRestaurant: (idRestaurantToDelete: number) => void;
   restaurantMenus: Menu[];
   setRestaurantMenus: (menus: Menu[]) => void;
-  handleDeleteMenuClick: (idMenuToDelete: number) => void;
+  handleDeleteMenuClick: (event: MouseEvent, idMenuToDelete: number) => void;
 }
 
 export const RestaurantCard: FunctionComponent<RestaurantCardProps> = ({
@@ -35,7 +35,8 @@ export const RestaurantCard: FunctionComponent<RestaurantCardProps> = ({
 }) => {
   const { isAdmin } = useContext(AdminContext);
   let navigate = useNavigate();
-  const handleDeleteRestaurantClick = async () => {
+  const handleDeleteRestaurantClick = async (event: MouseEvent) => {
+    event.stopPropagation();
     await axios.delete(`http://localhost:8000/restaurants/${idRestaurant}`);
     deleteRestaurant(idRestaurant);
   };
@@ -53,7 +54,11 @@ export const RestaurantCard: FunctionComponent<RestaurantCardProps> = ({
       className="restaurant-card"
     >
       <span className="menu-title">{name} </span>
-      {isAdmin && <button onClick={handleDeleteRestaurantClick}>X</button>}
+      {isAdmin && (
+        <button className="delete-button" onClick={(event) => handleDeleteRestaurantClick(event)}>
+          X
+        </button>
+      )}
       <div>
         <p>Opening times: {openingTimes}</p>
         <p>Chef: {chefName}</p>
@@ -66,8 +71,9 @@ export const RestaurantCard: FunctionComponent<RestaurantCardProps> = ({
           <span>{restaurantMenu.name}</span>
           {isAdmin && (
             <button
-              onClick={() => handleDeleteMenuClick(restaurantMenu.idMenu)}
+              onClick={(event) => handleDeleteMenuClick(event, restaurantMenu.idMenu)}
               key={restaurantMenu.idMenu}
+              className="delete-button"
             >
               X
             </button>

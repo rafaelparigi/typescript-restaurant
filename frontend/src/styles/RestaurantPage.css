@@ -15,7 +15,7 @@
   border-style: solid;
   border-width: 3px;
   padding: 10px;
-  background-color: rgb(198, 222, 242);
+  background: linear-gradient(rgba(253, 253, 253, 0.8), rgba(212, 226, 237, 0.9));
   min-width: 400px;
   margin-bottom: 10px;
 }

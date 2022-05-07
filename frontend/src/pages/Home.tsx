@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { MouseEvent } from "react";
 import "../App.css";
 import { RestaurantCard, Restaurant } from "../components/restaurantCard";
 import { FunctionComponent } from "react";
@@ -10,7 +10,7 @@ interface HomeProps {
   setRestaurants: (restaurants: Restaurant[]) => void;
   restaurantMenus: Menu[];
   setRestaurantMenus: (menus: Menu[]) => void;
-  handleDeleteMenuClick: (idMenuToDelete: number) => void;
+  handleDeleteMenuClick: (event: MouseEvent, idMenuToDelete: number) => void;
 }
 
 export const Home: FunctionComponent<HomeProps> = ({
@@ -30,7 +30,7 @@ export const Home: FunctionComponent<HomeProps> = ({
 
   return (
     <div className="home">
-      <h1 className="home-title">Welcome to restaurants</h1>
+      <h1 className="home-title">Restaurant list</h1>
       <div className="home-restaurants">
         {restaurants.map((restaurant) => (
           <RestaurantCard

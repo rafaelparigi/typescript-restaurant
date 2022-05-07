@@ -14,18 +14,17 @@ export const NavBar: FunctionComponent = () => {
         <h1 style={{ display: "none" }}>Restaurants</h1>
       </div>
       <nav className="topnav">
-        <Link className="link" to="/">
-          Home
-        </Link>
-        <Link className="link" to="/add-form">
-          Add New Restaurant/Menu/MenuItem
-        </Link>
-        <Link className="link" to="/login">
-          Login
-        </Link>
         <label className="admin-toggle">
           <Toggle onChange={() => setIsAdmin(!isAdmin)} />
         </label>
+        <Link className="link" to="/">
+          Home
+        </Link>
+        {isAdmin && (
+          <Link className="link" to="/add-form">
+            Add New Restaurant/Menu/MenuItem
+          </Link>
+        )}
       </nav>
     </div>
   );

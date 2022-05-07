@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { MouseEvent, useState, useEffect } from "react";
 import { AdminContextProvider } from "./contexts/AdminContext";
 import { NavBar } from "./components/NavBar";
 
@@ -30,7 +30,8 @@ const App = () => {
   const [restaurantMenus, setRestaurantMenus] = useState<Menu[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
-  const handleDeleteMenuClick = async (idMenuToDelete: number) => {
+  const handleDeleteMenuClick = async (event: MouseEvent, idMenuToDelete: number) => {
+    event.stopPropagation();
     await axios.delete(`http://localhost:8000/menus/${idMenuToDelete}`);
     setRestaurantMenus(
       restaurantMenus.filter((restaurantMenu) => restaurantMenu.idMenu !== idMenuToDelete)

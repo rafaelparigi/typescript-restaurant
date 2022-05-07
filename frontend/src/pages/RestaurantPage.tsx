@@ -21,7 +21,7 @@ export const RestaurantPage: FunctionComponent<RestaurantPageProps> = ({
 }) => {
   return (
     <div className="restaurant-page">
-      <h1 className="restaurant-page-title">{`Welcome to restaurant ${restaurant.idRestaurant}`}</h1>
+      <h1 className="restaurant-page-title">{`Welcome to ${restaurant.name} menus`}</h1>
       <div className="menus-layout">
         {restaurantMenus.map((restaurantMenu) => (
           <div className="menu-card" key={restaurantMenu.idMenu}>
