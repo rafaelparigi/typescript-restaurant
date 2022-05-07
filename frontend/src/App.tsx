@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-
+import { AdminContextProvider } from "./contexts/AdminContext";
 import { NavBar } from "./components/NavBar";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -64,54 +64,56 @@ const App = () => {
     getMenuItems();
   }, []);
   return (
-    <Router>
-      <NavBar />
-      <div className="App">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home
-                restaurants={restaurants}
-                setRestaurants={setRestaurants}
-                restaurantMenus={restaurantMenus}
-                setRestaurantMenus={setRestaurantMenus}
-                handleDeleteMenuClick={handleDeleteMenuClick}
-              />
-            }
-          />
-          <Route
-            path="/add-form"
-            element={
-              <AddMenu
-                restaurants={restaurants}
-                setRestaurants={setRestaurants}
-                restaurantMenus={restaurantMenus}
-                setRestaurantMenus={setRestaurantMenus}
-                menuItems={menuItems}
-                setMenuItems={setMenuItems}
-              />
-            }
-          />
-          {restaurants.map((restaurant) => (
+    <AdminContextProvider>
+      <Router>
+        <NavBar />
+        <div className="App">
+          <Routes>
             <Route
-              key={restaurant.idRestaurant}
-              path={`/restaurants/${restaurant.idRestaurant}`}
+              path="/"
               element={
-                <RestaurantPage
-                  restaurant={restaurant}
-                  restaurantMenus={restaurantMenus.filter(
-                    (restaurantMenu) => restaurant.idRestaurant === restaurantMenu.idRestaurant
-                  )}
+                <Home
+                  restaurants={restaurants}
+                  setRestaurants={setRestaurants}
+                  restaurantMenus={restaurantMenus}
+                  setRestaurantMenus={setRestaurantMenus}
+                  handleDeleteMenuClick={handleDeleteMenuClick}
+                />
+              }
+            />
+            <Route
+              path="/add-form"
+              element={
+                <AddMenu
+                  restaurants={restaurants}
+                  setRestaurants={setRestaurants}
+                  restaurantMenus={restaurantMenus}
+                  setRestaurantMenus={setRestaurantMenus}
                   menuItems={menuItems}
                   setMenuItems={setMenuItems}
                 />
               }
             />
-          ))}
-        </Routes>
-      </div>
-    </Router>
+            {restaurants.map((restaurant) => (
+              <Route
+                key={restaurant.idRestaurant}
+                path={`/restaurants/${restaurant.idRestaurant}`}
+                element={
+                  <RestaurantPage
+                    restaurant={restaurant}
+                    restaurantMenus={restaurantMenus.filter(
+                      (restaurantMenu) => restaurant.idRestaurant === restaurantMenu.idRestaurant
+                    )}
+                    menuItems={menuItems}
+                    setMenuItems={setMenuItems}
+                  />
+                }
+              />
+            ))}
+          </Routes>
+        </div>
+      </Router>
+    </AdminContextProvider>
   );
 };
 

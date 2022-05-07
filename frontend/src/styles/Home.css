@@ -1,0 +1,27 @@
+.home {
+  background-color: whitesmoke;
+}
+.home-title {
+  margin: 0px;
+  padding: 20px;
+}
+.menu-title {
+  font-weight: bold;
+  font-size: large;
+}
+.home-restaurants {
+  background-color: whitesmoke;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+.restaurant-card {
+  border-style: solid;
+  border-width: 2px;
+  padding: 10px;
+  background-color: rgb(217, 223, 228);
+  min-width: 400px;
+  margin-bottom: 10px;
+  background-image: url;
+  border-radius: 10px;
+}

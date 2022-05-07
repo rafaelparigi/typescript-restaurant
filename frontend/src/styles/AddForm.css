@@ -1,0 +1,41 @@
+.add-form {
+  background-color: whitesmoke;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+.add-form-unit {
+  border-style: solid;
+  border-width: 3px;
+  padding: 10px;
+  background-color: rgb(198, 222, 242);
+  min-width: 400px;
+}
+
+.add-form-all-fields {
+  background-color: whitesmoke;
+  border-style: solid;
+  border-width: 2px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: flex-end;
+}
+
+.add-form-field {
+  margin: 5px;
+}
+
+.submit-button {
+  background-color: whitesmoke;
+  margin: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+.submit-button:hover {
+  background-color: rgb(102, 149, 187);
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  cursor: pointer;
+}

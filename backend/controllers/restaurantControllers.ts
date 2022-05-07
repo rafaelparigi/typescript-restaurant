@@ -6,6 +6,7 @@ interface Restaurant {
   openingTimes: string;
   chefName: string;
   address: string;
+  photo: string;
 }
 
 export const getRestaurants = async () => {
@@ -18,7 +19,7 @@ export const getRestaurant = async (idRequest: number) => {
   return result;
 };
 export const addRestaurant = async (newRestaurant: Restaurant) => {
-  const addRestaurantQuery = `INSERT INTO Restaurants (name, openingTimes, chefName, address) VALUES ("${newRestaurant.name}", "${newRestaurant.openingTimes}", "${newRestaurant.chefName}", "${newRestaurant.address}")`;
+  const addRestaurantQuery = `INSERT INTO Restaurants (name, openingTimes, chefName, address, photo) VALUES ("${newRestaurant.name}", "${newRestaurant.openingTimes}", "${newRestaurant.chefName}", "${newRestaurant.address}", "${newRestaurant.photo}")`;
   const result = await runQuery(addRestaurantQuery);
   console.log(result);
   return result;

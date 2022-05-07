@@ -1,0 +1,29 @@
+.restaurant-page {
+  background-color: whitesmoke;
+}
+.restaurant-page-title {
+  margin: 0px;
+  padding: 20px;
+}
+.menus-layout {
+  background-color: whitesmoke;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+.menu-card {
+  border-style: solid;
+  border-width: 3px;
+  padding: 10px;
+  background-color: rgb(198, 222, 242);
+  min-width: 400px;
+  margin-bottom: 10px;
+}
+.menu-item-card {
+  border-style: solid;
+  border-width: 1.5px;
+  padding: 10px;
+  background-color: whitesmoke;
+  min-width: 400px;
+  margin-bottom: 10px;
+}

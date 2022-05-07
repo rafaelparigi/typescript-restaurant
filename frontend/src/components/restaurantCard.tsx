@@ -1,7 +1,10 @@
 import axios from "axios";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { Menu } from "./MenuCard";
 import "../App.css";
+import "../styles/Home.css";
+import { useNavigate } from "react-router-dom";
+import { AdminContext } from "../contexts/AdminContext";
 
 export interface Restaurant {
   idRestaurant: number;
@@ -9,6 +12,7 @@ export interface Restaurant {
   openingTimes: string;
   chefName: string;
   address: string;
+  photo: string;
 }
 
 interface RestaurantCardProps extends Restaurant {
@@ -24,39 +28,53 @@ export const RestaurantCard: FunctionComponent<RestaurantCardProps> = ({
   openingTimes,
   chefName,
   address,
+  photo,
   deleteRestaurant,
   restaurantMenus,
   handleDeleteMenuClick,
 }) => {
+  const { isAdmin } = useContext(AdminContext);
+  let navigate = useNavigate();
   const handleDeleteRestaurantClick = async () => {
     await axios.delete(`http://localhost:8000/restaurants/${idRestaurant}`);
     deleteRestaurant(idRestaurant);
   };
+  const handleRestaurantClick = (idRestaurant: number) => {
+    navigate(`/restaurants/${idRestaurant}`, { replace: true });
+  };
 
   return (
-    <div>
-      <div className="restaurant-card">
-        <span>{name}</span> <button onClick={handleDeleteRestaurantClick}>X</button>
-        <div>
-          <p>{openingTimes}</p>
-          <p>{chefName}</p>
-          <p>{address}</p>
-        </div>
-        <p>Menus:</p>
-        {restaurantMenus.map((restaurantMenu) => (
-          <span key={restaurantMenu.idMenu}>
-            <span>{restaurantMenu.name}</span>
+    <span
+      onClick={() => handleRestaurantClick(idRestaurant)}
+      style={{
+        background: `linear-gradient(rgba(255,255,255,.9), rgb(219, 231, 241, .8)), url("${photo}")`,
+        backgroundSize: "cover",
+      }}
+      className="restaurant-card"
+    >
+      <span className="menu-title">{name} </span>
+      {isAdmin && <button onClick={handleDeleteRestaurantClick}>X</button>}
+      <div>
+        <p>Opening times: {openingTimes}</p>
+        <p>Chef: {chefName}</p>
+        <p>Address: {address}</p>
+      </div>
+      <br />
+      <p className="menu-title">Menus:</p>
+      {restaurantMenus.map((restaurantMenu) => (
+        <span key={restaurantMenu.idMenu}>
+          <span>{restaurantMenu.name}</span>
+          {isAdmin && (
             <button
               onClick={() => handleDeleteMenuClick(restaurantMenu.idMenu)}
               key={restaurantMenu.idMenu}
             >
               X
             </button>
-            <br />
-          </span>
-        ))}
-      </div>
-      <br />
-    </div>
+          )}
+          <br />
+        </span>
+      ))}
+    </span>
   );
 };

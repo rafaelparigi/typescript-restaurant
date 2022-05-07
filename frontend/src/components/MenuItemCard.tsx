@@ -1,6 +1,8 @@
 import axios from "axios";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import "../App.css";
+import "../styles/RestaurantPage.css";
+import { AdminContext } from "../contexts/AdminContext";
 
 export interface MenuItem {
   idMenuItem: number;
@@ -22,6 +24,7 @@ export const MenuItemCard: FunctionComponent<MenuItemCardProps> = ({
   menuItems,
   setMenuItems,
 }) => {
+  const { isAdmin } = useContext(AdminContext);
   const handleDeleteMenuItemClick = async () => {
     await axios.delete(`http://localhost:8000/menu-items/${idMenuItem}`);
     deleteMenuItem(idMenuItem);
@@ -30,12 +33,12 @@ export const MenuItemCard: FunctionComponent<MenuItemCardProps> = ({
     setMenuItems(menuItems.filter((menuItem) => menuItem.idMenuItem !== idMenuItemToDelete));
   };
   return (
-    <div className="menu-card">
+    <div className="menu-item-card">
       <p>
         {idMenuItem}-{name}
       </p>
       <p>£{price}</p>
-      <button onClick={handleDeleteMenuItemClick}>X</button>
+      {isAdmin && <button onClick={handleDeleteMenuItemClick}>X</button>}
     </div>
   );
 };

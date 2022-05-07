@@ -1,7 +1,13 @@
 import "../styles/NavBar.css";
+import "react-toggle/style.css";
 import { Link } from "react-router-dom";
+import Toggle from "react-toggle";
+import { FunctionComponent, useContext, useEffect } from "react";
+import { AdminContext } from "../contexts/AdminContext";
 
-export const NavBar = () => {
+export const NavBar: FunctionComponent = () => {
+  const { isAdmin, setIsAdmin } = useContext(AdminContext);
+
   return (
     <div className="navbar">
       <div className="navbar-div">
@@ -17,6 +23,9 @@ export const NavBar = () => {
         <Link className="link" to="/login">
           Login
         </Link>
+        <label className="admin-toggle">
+          <Toggle onChange={() => setIsAdmin(!isAdmin)} />
+        </label>
       </nav>
     </div>
   );

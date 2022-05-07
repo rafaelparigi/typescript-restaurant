@@ -1,4 +1,5 @@
 import "../App.css";
+import "../styles/RestaurantPage.css";
 import { Restaurant } from "../components/restaurantCard";
 import { Menu } from "../components/MenuCard";
 import { MenuItemCard } from "../components/MenuItemCard";
@@ -19,11 +20,11 @@ export const RestaurantPage: FunctionComponent<RestaurantPageProps> = ({
   setMenuItems,
 }) => {
   return (
-    <div>
-      <h1>{`Welcome to restaurant ${restaurant.idRestaurant}`}</h1>
-      <div>
+    <div className="restaurant-page">
+      <h1 className="restaurant-page-title">{`Welcome to restaurant ${restaurant.idRestaurant}`}</h1>
+      <div className="menus-layout">
         {restaurantMenus.map((restaurantMenu) => (
-          <div key={restaurantMenu.idMenu}>
+          <div className="menu-card" key={restaurantMenu.idMenu}>
             <h2>{restaurantMenu.name}</h2>
             {menuItems
               .filter((menuItem) => restaurantMenu.idMenu === menuItem.idMenu)

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import "../App.css";
 import { RestaurantCard, Restaurant } from "../components/restaurantCard";
 import { FunctionComponent } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { Menu } from "../components/MenuCard";
 
@@ -30,12 +29,12 @@ export const Home: FunctionComponent<HomeProps> = ({
   };
 
   return (
-    <div>
-      <h1>Welcome to restaurants</h1>
-
-      {restaurants.map((restaurant) => (
-        <Link key={restaurant.idRestaurant} to={`/restaurants/${restaurant.idRestaurant}`}>
+    <div className="home">
+      <h1 className="home-title">Welcome to restaurants</h1>
+      <div className="home-restaurants">
+        {restaurants.map((restaurant) => (
           <RestaurantCard
+            key={restaurant.idRestaurant}
             {...restaurant}
             restaurantMenus={restaurantMenus.filter(
               (restaurantMenu) => restaurant.idRestaurant === restaurantMenu.idRestaurant
@@ -44,8 +43,8 @@ export const Home: FunctionComponent<HomeProps> = ({
             deleteRestaurant={deleteRestaurant}
             handleDeleteMenuClick={handleDeleteMenuClick}
           />
-        </Link>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

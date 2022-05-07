@@ -3,6 +3,7 @@ import { Menu } from "./MenuCard";
 import axios from "axios";
 import { Restaurant } from "./restaurantCard";
 import { MenuItem } from "./MenuItemCard";
+import "../styles/AddForm.css";
 
 interface MenuFormProps {
   addMenu: (newMenu: Menu) => void;
@@ -26,6 +27,7 @@ export const MenuForm: FunctionComponent<MenuFormProps> = ({
     openingTimes: "",
     chefName: "",
     address: "",
+    photo: "",
   };
 
   //newMenu state is only used in the frontend, thus actual value of idMenu/idRestaurant does not matter here, and can be set to whatevah
@@ -64,113 +66,128 @@ export const MenuForm: FunctionComponent<MenuFormProps> = ({
     setNewMenuItem(emptyNewMenuItemForm);
   };
 
+  const restaurantForm = [
+    { label: "Enter a restaurant name: ", input: "name" },
+    { label: "Enter open times: ", input: "openingTimes" },
+    { label: "Enter chef name: ", input: "chefName" },
+    { label: "Enter address: ", input: "address" },
+    { label: "Enter photo: ", input: "photo" },
+  ];
+
   return (
-    <div>
-      <form data-testid="restaurant-form" onSubmit={handleSubmitRestaurant}>
-        <label>Enter a restaurant name: </label>
-        <input
-          type="text"
-          value={newRestaurant.name}
-          onChange={(e) => setNewRestaurant({ ...newRestaurant, name: e.target.value })}
-          required
-        />
-        <br />
-        <label>Enter opening times: </label>
-        <input
-          type="text"
-          value={newRestaurant.openingTimes}
-          onChange={(e) => setNewRestaurant({ ...newRestaurant, openingTimes: e.target.value })}
-          required
-        />
-        <br />
-        <label>Enter chef name: </label>
-        <input
-          type="text"
-          value={newRestaurant.chefName}
-          onChange={(e) => setNewRestaurant({ ...newRestaurant, chefName: e.target.value })}
-          required
-        />
-        <br />
-        <label>Enter address: </label>
-        <input
-          type="text"
-          value={newRestaurant.address}
-          onChange={(e) => setNewRestaurant({ ...newRestaurant, address: e.target.value })}
-          required
-        />
-        <br />
-        <input type="submit" />
+    <div className="add-form">
+      <form
+        data-testid="restaurant-form"
+        onSubmit={handleSubmitRestaurant}
+        className="add-form-unit"
+      >
+        <h1>Add a restaurant</h1>
+        <div className="add-form-all-fields">
+          {restaurantForm.map((restaurantFormField) => (
+            <div className="add-form-field">
+              <label>{restaurantFormField.label}</label>
+              <input
+                type="text"
+                value={newRestaurant[restaurantFormField.input as keyof Restaurant]}
+                onChange={(e) =>
+                  setNewRestaurant({
+                    ...newRestaurant,
+                    [restaurantFormField.input]: e.target.value,
+                  })
+                }
+                required
+              ></input>
+            </div>
+          ))}
+        </div>
+        <input className="submit-button" type="submit" />
       </form>
 
-      <form data-testid="restaurant-form" onSubmit={handleSubmitMenu}>
-        <label>Enter a menu name: </label>
-        <input
-          type="text"
-          value={newMenu.name}
-          onChange={(e) => setNewMenu({ ...newMenu, name: e.target.value })}
-          required
-        />
-        <br />
-        <br />
-        <label>Select restaurant for the new restaurant: </label>
-        <select
-          required
-          onChange={(e) => setNewMenu({ ...newMenu, idRestaurant: parseInt(e.target.value) })}
-        >
-          <option disabled selected>
-            {" "}
-            -- select an option --{" "}
-          </option>
-          {restaurants.map((restaurant) => (
-            <option value={restaurant.idRestaurant}>{restaurant.name}</option>
-          ))}
-        </select>
-        <input type="submit" />
+      <form data-testid="restaurant-form" onSubmit={handleSubmitMenu} className="add-form-unit">
+        <h1>Add a menu</h1>
+        <div className="add-form-all-fields ">
+          <div className="add-form-field">
+            <label>New menu's restaurant: </label>
+            <select
+              required
+              onChange={(e) => setNewMenu({ ...newMenu, idRestaurant: parseInt(e.target.value) })}
+            >
+              <option disabled selected>
+                {" "}
+                -- select an option --{" "}
+              </option>
+              {restaurants.map((restaurant) => (
+                <option value={restaurant.idRestaurant}>{restaurant.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="add-form-field">
+            <label>Enter a menu name: </label>
+            <input
+              type="text"
+              value={newMenu.name}
+              onChange={(e) => setNewMenu({ ...newMenu, name: e.target.value })}
+              required
+            />
+          </div>
+        </div>
+        <input className="submit-button" type="submit" />
       </form>
 
-      <form data-testid="restaurant-form" onSubmit={handleSubmitMenuItem}>
-        <label>Enter a menu item name: </label>
-        <input
-          value={newMenuItem.name}
-          type="text"
-          onChange={(e) => setNewMenuItem({ ...newMenuItem, name: e.target.value })}
-          required
-        />
-        <br />
-        <br />
-        <label>Select rest for the new menu item: </label>
-        <select required onChange={(e) => setIdRestaurantSelected(parseInt(e.target.value))}>
-          <option disabled selected>
-            {" "}
-            -- select an option --{" "}
-          </option>
-          {restaurants.map((restaurant) => (
-            <option value={restaurant.idRestaurant}>{restaurant.name}</option>
-          ))}
-        </select>
-        <select
-          required
-          onChange={(e) => setNewMenuItem({ ...newMenuItem, idMenu: parseInt(e.target.value) })}
-        >
-          <option disabled selected>
-            {" "}
-            -- select an option --{" "}
-          </option>
-          {restaurantMenus
-            .filter((restaurantMenu) => restaurantMenu.idRestaurant === idRestaurantSelected)
-            .map((selectedRestaurantMenu) => (
-              <option value={selectedRestaurantMenu.idMenu}>{selectedRestaurantMenu.name}</option>
-            ))}
-        </select>
-        <label>Price: </label>
-        <input
-          value={newMenuItem.price}
-          type="text"
-          onChange={(e) => setNewMenuItem({ ...newMenuItem, price: e.target.value })}
-          required
-        />
-        <br />
-        <input type="submit" />
+      <form data-testid="restaurant-form" onSubmit={handleSubmitMenuItem} className="add-form-unit">
+        <h1>Add a menu item</h1>
+        <div className="add-form-all-fields">
+          <div className="add-form-field">
+            <label>New menu-item's restaurant: </label>
+            <select required onChange={(e) => setIdRestaurantSelected(parseInt(e.target.value))}>
+              <option disabled selected>
+                {" "}
+                -- select an option --{" "}
+              </option>
+              {restaurants.map((restaurant) => (
+                <option value={restaurant.idRestaurant}>{restaurant.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="add-form-field">
+            <label>New menu-item's menu: </label>
+            <select
+              required
+              onChange={(e) => setNewMenuItem({ ...newMenuItem, idMenu: parseInt(e.target.value) })}
+            >
+              <option disabled selected>
+                {" "}
+                -- select an option --{" "}
+              </option>
+              {restaurantMenus
+                .filter((restaurantMenu) => restaurantMenu.idRestaurant === idRestaurantSelected)
+                .map((selectedRestaurantMenu) => (
+                  <option value={selectedRestaurantMenu.idMenu}>
+                    {selectedRestaurantMenu.name}
+                  </option>
+                ))}
+            </select>
+          </div>
+          <div className="add-form-field">
+            <label>Enter a menu-item name: </label>
+            <input
+              value={newMenuItem.name}
+              type="text"
+              onChange={(e) => setNewMenuItem({ ...newMenuItem, name: e.target.value })}
+              required
+            />
+          </div>
+          <div className="add-form-field">
+            <label>Enter price: </label>
+            <input
+              value={newMenuItem.price}
+              type="text"
+              onChange={(e) => setNewMenuItem({ ...newMenuItem, price: e.target.value })}
+              required
+            />
+          </div>
+        </div>
+        <input className="submit-button" type="submit" />
       </form>
     </div>
   );

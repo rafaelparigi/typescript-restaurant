@@ -56,3 +56,11 @@
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
 }
+
+.admin-toggle {
+  margin: 12.5px;
+  font-size: 17px;
+  color: white;
+  display: flex;
+  flex-flow: row wrap;
+}
