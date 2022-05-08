@@ -1,9 +1,11 @@
-import { useState, FunctionComponent, useEffect } from "react";
+import { useState, FunctionComponent, useEffect, useContext } from "react";
 import { Menu } from "./MenuCard";
 import axios from "axios";
 import { Restaurant } from "./restaurantCard";
 import { MenuItem } from "./MenuItemCard";
 import "../styles/AddForm.css";
+import { ThemeContext } from "../contexts/ThemeContext";
+import "../App.css";
 
 interface MenuFormProps {
   addMenu: (newMenu: Menu) => void;
@@ -38,6 +40,7 @@ export const MenuForm: FunctionComponent<MenuFormProps> = ({
   const [newMenu, setNewMenu] = useState<Menu>(emptyNewMenuForm);
   const [newMenuItem, setNewMenuItem] = useState<MenuItem>(emptyNewMenuItemForm);
   const [idRestaurantSelected, setIdRestaurantSelected] = useState<number>(0);
+  const { theme } = useContext(ThemeContext);
   useEffect(() => console.log("id", idRestaurantSelected), [idRestaurantSelected]);
 
   const handleSubmitRestaurant = async (event: any) => {
@@ -75,14 +78,14 @@ export const MenuForm: FunctionComponent<MenuFormProps> = ({
   ];
 
   return (
-    <div className="add-form">
+    <div className={`add-form theme-${theme}`}>
       <form
         data-testid="restaurant-form"
         onSubmit={handleSubmitRestaurant}
-        className="add-form-unit"
+        className={`add-form-unit card-theme-${theme}`}
       >
         <h1>Add a restaurant</h1>
-        <div className="add-form-all-fields">
+        <div className={`add-form-all-fields theme-${theme}`}>
           {restaurantForm.map((restaurantFormField) => (
             <div className="add-form-field">
               <label>{restaurantFormField.label}</label>
@@ -103,9 +106,13 @@ export const MenuForm: FunctionComponent<MenuFormProps> = ({
         <input className="submit-button" type="submit" />
       </form>
 
-      <form data-testid="restaurant-form" onSubmit={handleSubmitMenu} className="add-form-unit">
+      <form
+        data-testid="restaurant-form"
+        onSubmit={handleSubmitMenu}
+        className={`add-form-unit card-theme-${theme}`}
+      >
         <h1>Add a menu</h1>
-        <div className="add-form-all-fields ">
+        <div className={`add-form-all-fields theme-${theme}`}>
           <div className="add-form-field">
             <label>New menu's restaurant: </label>
             <select
@@ -134,9 +141,13 @@ export const MenuForm: FunctionComponent<MenuFormProps> = ({
         <input className="submit-button" type="submit" />
       </form>
 
-      <form data-testid="restaurant-form" onSubmit={handleSubmitMenuItem} className="add-form-unit">
+      <form
+        data-testid="restaurant-form"
+        onSubmit={handleSubmitMenuItem}
+        className={`add-form-unit card-theme-${theme}`}
+      >
         <h1>Add a menu item</h1>
-        <div className="add-form-all-fields">
+        <div className={`add-form-all-fields theme-${theme}`}>
           <div className="add-form-field">
             <label>New menu-item's restaurant: </label>
             <select required onChange={(e) => setIdRestaurantSelected(parseInt(e.target.value))}>

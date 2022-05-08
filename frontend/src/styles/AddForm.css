@@ -1,5 +1,4 @@
 .add-form {
-  background-color: whitesmoke;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
@@ -7,16 +6,16 @@
 }
 .add-form-unit {
   border-style: solid;
-  border-width: 3px;
+  border-width: 1px;
+  border-radius: 10px;
   padding: 10px;
-  background: linear-gradient(rgba(253, 253, 253, 0.8), rgba(212, 226, 237, 0.9));
   min-width: 400px;
 }
 
 .add-form-all-fields {
-  background-color: whitesmoke;
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
+  border-radius: 5px;
   display: flex;
   flex-flow: column wrap;
   align-items: flex-end;
@@ -31,6 +30,7 @@
   margin: 10px;
   padding: 10px;
   cursor: pointer;
+  border-radius: 5px;
 }
 .submit-button:hover {
   color: white;

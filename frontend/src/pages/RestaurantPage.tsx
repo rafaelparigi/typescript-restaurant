@@ -3,8 +3,9 @@ import "../styles/RestaurantPage.css";
 import { Restaurant } from "../components/restaurantCard";
 import { Menu } from "../components/MenuCard";
 import { MenuItemCard } from "../components/MenuItemCard";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { MenuItem } from "../components/MenuItemCard";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 interface RestaurantPageProps {
   restaurant: Restaurant;
@@ -19,12 +20,15 @@ export const RestaurantPage: FunctionComponent<RestaurantPageProps> = ({
   menuItems,
   setMenuItems,
 }) => {
+  const { theme } = useContext(ThemeContext);
   return (
-    <div className="restaurant-page">
-      <h1 className="restaurant-page-title">{`Welcome to ${restaurant.name} menus`}</h1>
+    <div className={`theme-${theme}`}>
+      <h1
+        className={`restaurant-page-title theme-${theme}`}
+      >{`Welcome to ${restaurant.name} menus`}</h1>
       <div className="menus-layout">
         {restaurantMenus.map((restaurantMenu) => (
-          <div className="menu-card" key={restaurantMenu.idMenu}>
+          <div className={`menu-card card-theme-${theme}`} key={restaurantMenu.idMenu}>
             <h2>{restaurantMenu.name}</h2>
             {menuItems
               .filter((menuItem) => restaurantMenu.idMenu === menuItem.idMenu)

@@ -1,4 +1,4 @@
-import React, { createContext, FunctionComponent, useState } from "react";
+import { createContext, FunctionComponent, useState } from "react";
 
 type AdminContextProps = {
   isAdmin: boolean;

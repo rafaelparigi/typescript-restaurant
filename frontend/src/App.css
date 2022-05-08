@@ -6,3 +6,23 @@
   color: white;
   background-color: rgb(0, 78, 142);
 }
+
+.theme-light {
+  color: black;
+  background-color: whitesmoke;
+}
+
+.theme-dark {
+  color: whitesmoke;
+  background-color: rgb(53, 53, 53);
+}
+
+.card-theme-light {
+  color: black;
+  background: linear-gradient(rgba(253, 253, 253, 0.8), rgba(212, 226, 237, 0.9));
+}
+
+.card-theme-dark {
+  color: whitesmoke;
+  background: linear-gradient(rgba(107, 107, 107, 0.202), rgba(162, 162, 162, 0.9));
+}

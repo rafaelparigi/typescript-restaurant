@@ -3,6 +3,7 @@ import { FunctionComponent, MouseEvent, useContext } from "react";
 import "../App.css";
 import "../styles/RestaurantPage.css";
 import { AdminContext } from "../contexts/AdminContext";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 export interface MenuItem {
   idMenuItem: number;
@@ -25,6 +26,7 @@ export const MenuItemCard: FunctionComponent<MenuItemCardProps> = ({
   setMenuItems,
 }) => {
   const { isAdmin } = useContext(AdminContext);
+  const { theme } = useContext(ThemeContext);
   const handleDeleteMenuItemClick = async (event: MouseEvent) => {
     event.stopPropagation();
     await axios.delete(`http://localhost:8000/menu-items/${idMenuItem}`);
@@ -34,7 +36,7 @@ export const MenuItemCard: FunctionComponent<MenuItemCardProps> = ({
     setMenuItems(menuItems.filter((menuItem) => menuItem.idMenuItem !== idMenuItemToDelete));
   };
   return (
-    <div className="menu-item-card">
+    <div className={`menu-item-card theme-${theme}`}>
       <p>
         {idMenuItem}-{name}
       </p>

@@ -10,26 +10,26 @@
   font-size: large;
 }
 .home-restaurants {
-  background-color: whitesmoke;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
 }
+
 .restaurant-card {
   border-style: solid;
   border-width: 1px;
+  border-radius: 10px;
   padding: 10px;
-  background-color: rgb(217, 223, 228);
   min-width: 400px;
   min-height: 241px;
   margin-bottom: 10px;
-  border-radius: 10px;
   transition: 0.5s;
+  color: black;
 }
 
 .restaurant-card:hover {
   border-style: solid;
-  border-width: 5px;
+  border-width: 3px;
   border-radius: 10px;
   cursor: pointer;
 }

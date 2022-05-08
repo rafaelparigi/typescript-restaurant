@@ -1,14 +1,11 @@
 import "./App.css";
 import { MouseEvent, useState, useEffect } from "react";
-import { AdminContextProvider } from "./contexts/AdminContext";
 import { NavBar } from "./components/NavBar";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { AddMenu } from "./pages/AddMenu";
 import { Menu } from "./components/MenuCard";
 import axios from "axios";
-
 import { Restaurant } from "./components/restaurantCard";
 import { RestaurantPage } from "./pages/RestaurantPage";
 import { MenuItem } from "./components/MenuItemCard";
@@ -65,56 +62,54 @@ const App = () => {
     getMenuItems();
   }, []);
   return (
-    <AdminContextProvider>
-      <Router>
-        <NavBar />
-        <div className="App">
-          <Routes>
+    <Router>
+      <NavBar />
+      <div className="App">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                restaurants={restaurants}
+                setRestaurants={setRestaurants}
+                restaurantMenus={restaurantMenus}
+                setRestaurantMenus={setRestaurantMenus}
+                handleDeleteMenuClick={handleDeleteMenuClick}
+              />
+            }
+          />
+          <Route
+            path="/add-form"
+            element={
+              <AddMenu
+                restaurants={restaurants}
+                setRestaurants={setRestaurants}
+                restaurantMenus={restaurantMenus}
+                setRestaurantMenus={setRestaurantMenus}
+                menuItems={menuItems}
+                setMenuItems={setMenuItems}
+              />
+            }
+          />
+          {restaurants.map((restaurant) => (
             <Route
-              path="/"
+              key={restaurant.idRestaurant}
+              path={`/restaurants/${restaurant.idRestaurant}`}
               element={
-                <Home
-                  restaurants={restaurants}
-                  setRestaurants={setRestaurants}
-                  restaurantMenus={restaurantMenus}
-                  setRestaurantMenus={setRestaurantMenus}
-                  handleDeleteMenuClick={handleDeleteMenuClick}
-                />
-              }
-            />
-            <Route
-              path="/add-form"
-              element={
-                <AddMenu
-                  restaurants={restaurants}
-                  setRestaurants={setRestaurants}
-                  restaurantMenus={restaurantMenus}
-                  setRestaurantMenus={setRestaurantMenus}
+                <RestaurantPage
+                  restaurant={restaurant}
+                  restaurantMenus={restaurantMenus.filter(
+                    (restaurantMenu) => restaurant.idRestaurant === restaurantMenu.idRestaurant
+                  )}
                   menuItems={menuItems}
                   setMenuItems={setMenuItems}
                 />
               }
             />
-            {restaurants.map((restaurant) => (
-              <Route
-                key={restaurant.idRestaurant}
-                path={`/restaurants/${restaurant.idRestaurant}`}
-                element={
-                  <RestaurantPage
-                    restaurant={restaurant}
-                    restaurantMenus={restaurantMenus.filter(
-                      (restaurantMenu) => restaurant.idRestaurant === restaurantMenu.idRestaurant
-                    )}
-                    menuItems={menuItems}
-                    setMenuItems={setMenuItems}
-                  />
-                }
-              />
-            ))}
-          </Routes>
-        </div>
-      </Router>
-    </AdminContextProvider>
+          ))}
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

@@ -1,9 +1,9 @@
-import { MouseEvent } from "react";
+import { MouseEvent, useContext } from "react";
 import "../App.css";
 import { RestaurantCard, Restaurant } from "../components/restaurantCard";
 import { FunctionComponent } from "react";
-import axios from "axios";
 import { Menu } from "../components/MenuCard";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 interface HomeProps {
   restaurants: Restaurant[];
@@ -20,6 +20,7 @@ export const Home: FunctionComponent<HomeProps> = ({
   setRestaurantMenus,
   handleDeleteMenuClick,
 }) => {
+  const { theme } = useContext(ThemeContext);
   const deleteRestaurant = (idRestaurantToDelete: number) => {
     setRestaurants(
       restaurants.filter(
@@ -29,9 +30,9 @@ export const Home: FunctionComponent<HomeProps> = ({
   };
 
   return (
-    <div className="home">
-      <h1 className="home-title">Restaurant list</h1>
-      <div className="home-restaurants">
+    <div className={`home theme-${theme}`}>
+      <h1 className={`home-title theme-${theme}`}>Restaurant list</h1>
+      <div className={`home-restaurants theme-${theme}`}>
         {restaurants.map((restaurant) => (
           <RestaurantCard
             key={restaurant.idRestaurant}

@@ -5,10 +5,16 @@
 .navbar-div {
   background-color: #488345;
 }
-
+.theme-icon {
+  height: 30px;
+  padding: 10px 15px;
+}
 .topnav {
-  background-color: #333;
+  background-color: #444;
   display: flex;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(127, 127, 127);
 }
 
 .topnav .link {
