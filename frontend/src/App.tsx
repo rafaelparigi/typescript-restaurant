@@ -10,6 +10,7 @@ import { Restaurant } from "./components/restaurantCard";
 import { RestaurantPage } from "./pages/RestaurantPage";
 import { MenuItem } from "./components/MenuItemCard";
 import { ThemeContext } from "./contexts/ThemeContext";
+import { AdminContext } from "./contexts/AdminContext";
 import storage from "local-storage-fallback";
 
 interface RestaurantAxiosRequest {
@@ -26,6 +27,8 @@ interface MenuItemAxiosRequest {
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
+  const { isAdmin } = useContext(AdminContext);
+
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [restaurantMenus, setRestaurantMenus] = useState<Menu[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -67,7 +70,8 @@ const App = () => {
 
   useEffect(() => {
     storage.setItem("theme", JSON.stringify(theme));
-  }, [theme]);
+    storage.setItem("isAdmin", JSON.stringify(isAdmin));
+  }, [theme, isAdmin]);
 
   return (
     <Router>

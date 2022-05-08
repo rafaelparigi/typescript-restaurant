@@ -24,7 +24,7 @@ export const NavBar: FunctionComponent = () => {
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         />
         <label className="admin-toggle">
-          <Toggle onChange={() => setIsAdmin(!isAdmin)} />
+          <Toggle onChange={() => setIsAdmin(!isAdmin)} checked={isAdmin} />
         </label>
         <Link className="link" to="/">
           Home
