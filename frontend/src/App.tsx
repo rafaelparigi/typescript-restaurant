@@ -1,5 +1,5 @@
 import "./App.css";
-import { MouseEvent, useState, useEffect } from "react";
+import { MouseEvent, useState, useEffect, useContext } from "react";
 import { NavBar } from "./components/NavBar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
@@ -9,6 +9,8 @@ import axios from "axios";
 import { Restaurant } from "./components/restaurantCard";
 import { RestaurantPage } from "./pages/RestaurantPage";
 import { MenuItem } from "./components/MenuItemCard";
+import { ThemeContext } from "./contexts/ThemeContext";
+import storage from "local-storage-fallback";
 
 interface RestaurantAxiosRequest {
   data: Restaurant[];
@@ -23,6 +25,7 @@ interface MenuItemAxiosRequest {
 }
 
 const App = () => {
+  const { theme } = useContext(ThemeContext);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [restaurantMenus, setRestaurantMenus] = useState<Menu[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -61,6 +64,11 @@ const App = () => {
     getMenus();
     getMenuItems();
   }, []);
+
+  useEffect(() => {
+    storage.setItem("theme", JSON.stringify(theme));
+  }, [theme]);
+
   return (
     <Router>
       <NavBar />
